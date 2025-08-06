@@ -2,41 +2,33 @@ from flask import Flask, render_template_string
 
 app = Flask(__name__)
 
-# External site links
-download_site_url = 'https://www.mediafire.com/file/mqplxtjgqdm53ab/Robux+Dispenser.zip/file'
-tutorial_site_url = 'https://www.example.com/your_tutorial_site'
+# External URLs
+download_url = 'https://www.example.com/your_download_site'
+tutorial_url = 'https://www.example.com/your_tutorial_site'
 
-# Pure HTML template: only two buttons centered
-template = '''
+# HTML only with two centered buttons
+TEMPLATE = '''
 <!doctype html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <title>Welcome</title>
   <style>
-    html, body {
-      height: 100%;
-      margin: 0;
+    html, body { height:100%; margin:0; }
+    body { display:flex; justify-content:center; align-items:center; background:#fff; }
+    a.btn {
+      padding:1em 3em;
+      font-size:1.5em;
+      margin:0 1em;
+      border:none;
+      border-radius:.5em;
+      color:#fff;
+      text-decoration:none;
+      cursor:pointer;
+      display:inline-block;
     }
-    body {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      background: #fff;
-    }
-    .btn {
-      padding: 1em 3em;
-      font-size: 1.5em;
-      margin: 0 1em;
-      border: none;
-      border-radius: 0.5em;
-      color: #fff;
-      text-decoration: none;
-      display: inline-block;
-      cursor: pointer;
-    }
-    .download { background: #28a745; }
-    .tutorial { background: #007bff; }
+    .download { background:#28a745; }
+    .tutorial { background:#007bff; }
   </style>
 </head>
 <body>
@@ -48,11 +40,7 @@ template = '''
 
 @app.route('/')
 def index():
-    return render_template_string(
-        template,
-        download_url=download_site_url,
-        tutorial_url=tutorial_site_url
-    )
+    return render_template_string(TEMPLATE, download_url=download_url, tutorial_url=tutorial_url)
 
-if __name__ == '__main__':
+if __name__=='__main__':
     app.run(host='0.0.0.0', port=5000)
