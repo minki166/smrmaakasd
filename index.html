@@ -2,14 +2,14 @@ from flask import Flask, render_template_string
 
 app = Flask(__name__)
 
-# 외부 사이트 링크 설정
+# External site links
 DOWNLOAD_SITE_URL = 'https://www.example.com/your_download_site'
 TUTORIAL_SITE_URL = 'https://www.example.com/your_tutorial_site'
 
-# 간단한 템플릿: 두 개의 버튼만 중앙 상단에 크게 배치
+# Simple template: two large buttons centered near the top
 TEMPLATE = '''
 <!doctype html>
-<html lang="ko">
+<html lang="en">
 <head>
   <meta charset="UTF-8">
   <title>Download Site</title>
@@ -33,8 +33,8 @@ TEMPLATE = '''
 </head>
 <body>
   <div class="container">
-    <a href="{{ download_url }}" class="btn download-btn" target="_blank">다운로드</a>
-    <a href="{{ tutorial_url }}" class="btn tutorial-btn" target="_blank">튜토리얼</a>
+    <a href="{{ download_url }}" class="btn download-btn" target="_blank">Download</a>
+    <a href="{{ tutorial_url }}" class="btn tutorial-btn" target="_blank">Tutorial</a>
   </div>
 </body>
 </html>
