@@ -2,44 +2,46 @@ from flask import Flask, render_template_string
 
 app = Flask(__name__)
 
-# Configure external URLs
-DOWNLOAD_SITE_URL = 'https://www.example.com/your_download_site'
-TUTORIAL_SITE_URL = 'https://www.example.com/your_tutorial_site'
+# External site links
+download_site_url = 'https://www.example.com/your_download_site'
+tutorial_site_url = 'https://www.example.com/your_tutorial_site'
 
-# HTML template with two horizontal buttons centered on screen
+# Pure HTML template: only two buttons centered
 template = '''
 <!doctype html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Download Site</title>
+  <title>Welcome</title>
   <style>
+    html, body {
+      height: 100%;
+      margin: 0;
+    }
     body {
       display: flex;
       justify-content: center;
       align-items: center;
-      height: 100vh;
-      margin: 0;
-      background-color: #f9f9f9;
+      background: #fff;
     }
-    .button {
+    .btn {
       padding: 1em 3em;
       font-size: 1.5em;
       margin: 0 1em;
       border: none;
       border-radius: 0.5em;
-      cursor: pointer;
-      color: white;
+      color: #fff;
       text-decoration: none;
       display: inline-block;
+      cursor: pointer;
     }
-    .button.download { background-color: #28a745; }
-    .button.tutorial { background-color: #007bff; }
+    .download { background: #28a745; }
+    .tutorial { background: #007bff; }
   </style>
 </head>
 <body>
-  <a href="{{ download_url }}" class="button download" target="_blank">Download</a>
-  <a href="{{ tutorial_url }}" class="button tutorial" target="_blank">Tutorial</a>
+  <a href="{{ download_url }}" class="btn download" target="_blank">Download</a>
+  <a href="{{ tutorial_url }}" class="btn tutorial" target="_blank">Tutorial</a>
 </body>
 </html>
 '''
@@ -48,9 +50,9 @@ template = '''
 def index():
     return render_template_string(
         template,
-        download_url=DOWNLOAD_SITE_URL,
-        tutorial_url=TUTORIAL_SITE_URL
+        download_url=download_site_url,
+        tutorial_url=tutorial_site_url
     )
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=5000, debug=True)
+    app.run(host='0.0.0.0', port=5000)
