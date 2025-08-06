@@ -1,58 +1,52 @@
-from flask import Flask, render_template
-import os
+from flask import Flask, render_template_string
 
 app = Flask(__name__)
-# 디렉토리 경로 설정 (다운로드할 파일들이 있는 폴더)
-DOWNLOAD_FOLDER = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'downloads')
-app.config['DOWNLOAD_FOLDER'] = DOWNLOAD_FOLDER
 
 # 외부 사이트 링크 설정
 DOWNLOAD_SITE_URL = 'https://www.example.com/your_download_site'
 TUTORIAL_SITE_URL = 'https://www.example.com/your_tutorial_site'
 
-# templates/index.html 파일 생성
-# -------------------------------------
-# <!doctype html>
-# <html lang="ko">
-# <head>
-#   <meta charset="UTF-8">
-#   <title>Download Site</title>
-#   <style>
-#     .file-item { margin-bottom: 1em; }
-#     .btn { padding: 0.5em 1em; font-size: 1em; margin-right: 0.5em; }
-#   </style>
-# </head>
-# <body>
-#   <h1>파일 다운로드 페이지</h1>
-#   <ul>
-#     {% for filename in files %}
-#       <li class="file-item">
-#         <span>{{ filename }}</span><br>
-#         <a href="{{ download_site_url }}" target="_blank">
-#           <button class="btn">다운로드</button>
-#         </a>
-#         <a href="{{ tutorial_site_url }}" target="_blank">
-#           <button class="btn">튜토리얼</button>
-#         </a>
-#       </li>
-#     {% endfor %}
-#   </ul>
-# </body>
-# </html>
-# -------------------------------------
+# 간단한 템플릿: 두 개의 버튼만 중앙 상단에 크게 배치
+TEMPLATE = '''
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <title>Download Site</title>
+  <style>
+    body { display: flex; justify-content: center; align-items: flex-start; height: 100vh; margin: 0; }
+    .container { text-align: center; margin-top: 20vh; }
+    .btn {
+      display: inline-block;
+      padding: 1em 2em;
+      font-size: 1.5em;
+      margin: 0.5em;
+      border: none;
+      border-radius: 0.5em;
+      cursor: pointer;
+      text-decoration: none;
+      color: white;
+    }
+    .download-btn { background-color: #28a745; }
+    .tutorial-btn { background-color: #007bff; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <a href="{{ download_url }}" class="btn download-btn" target="_blank">다운로드</a>
+    <a href="{{ tutorial_url }}" class="btn tutorial-btn" target="_blank">튜토리얼</a>
+  </div>
+</body>
+</html>
+'''
 
 @app.route('/')
 def index():
-    # 파일 목록 로드
-    try:
-        files = os.listdir(app.config['DOWNLOAD_FOLDER'])
-    except FileNotFoundError:
-        files = []
-    # 숨김파일 제외
-    files = [f for f in files if not f.startswith('.')]
-    return render_template('index.html', files=files,
-                           download_site_url=DOWNLOAD_SITE_URL,
-                           tutorial_site_url=TUTORIAL_SITE_URL)
+    return render_template_string(
+        TEMPLATE,
+        download_url=DOWNLOAD_SITE_URL,
+        tutorial_url=TUTORIAL_SITE_URL
+    )
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000, debug=True)
